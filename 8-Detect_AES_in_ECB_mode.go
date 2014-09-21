@@ -1,19 +1,16 @@
 package main
 
-import "bufio"
-import "bytes"
-import "encoding/hex"
+import "github.com/leijou/matasano-go/conversion"
 import "fmt"
 import "os"
+import "bufio"
+import "bytes"
 
 func main() {
-	if len(os.Args) != 2 {
-		fmt.Println("File to scan required")
-		os.Exit(1)
-	}
+	inputfile := "resources/8.txt"
 
 	// Open input file
-	file, err := os.Open(os.Args[1])
+	file, err := os.Open(inputfile)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -24,7 +21,7 @@ func main() {
 	for scanner.Scan() {
 		line := scanner.Text()
 
-		l, _ := hex.DecodeString(line)
+		l, _ := conversion.HexToBytes(line)
 		m := 0
 		for x := 0; x < len(l); x += 16 {
 			matches := 0
@@ -40,8 +37,7 @@ func main() {
 		}
 
 		if m > 0 {
-			fmt.Println(m, "\t", line)
+			fmt.Println("Detected", m, "repetitions:", line)
 		}
-
 	}
 }

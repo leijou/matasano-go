@@ -1,4 +1,4 @@
-package main
+package analysis
 
 import "testing"
 
@@ -12,7 +12,7 @@ func TestHammingWeight(t *testing.T) {
 	}
 
 	for b, w := range tests {
-		r := hammingWeight(b)
+		r := ByteWeight(b)
 		if r != w {
 			t.Errorf("For %v got weight %v, expected %v", b, r, w)
 		}
@@ -27,7 +27,7 @@ func TestHammingDistace(t *testing.T) {
 	for s, w := range tests {
 		a := []byte(s[0])
 		b := []byte(s[1])
-		r, err := hammingDistance(a, b)
+		r, err := Distance(a, b)
 
 		if err != nil {
 			t.Errorf("For %v,%v got error %v", s[0], s[1], err)
