@@ -44,5 +44,9 @@ func (e *Block) DecryptECB(input []byte) ([]byte, error) {
 		copy(plaintext[a:b], plainslice)
 	}
 
+	if conversion.DetectPKCS(plaintext) {
+		plaintext = conversion.UnPadPKCS(plaintext)
+	}
+
 	return plaintext, nil
 }

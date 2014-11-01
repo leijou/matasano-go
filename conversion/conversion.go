@@ -42,28 +42,3 @@ func TransposeBlocks(src []byte, blocksize int) [][]byte {
 
 	return blocks
 }
-
-func PadPKCS(src []byte, blocksize int) []byte {
-	srclength, dstlength := len(src), len(src)
-	dstlength += blocksize - (srclength % blocksize)
-
-	char := byte(dstlength - srclength)
-
-	result := make([]byte, dstlength)
-	for i := 0; i < dstlength; i++ {
-		if i < srclength {
-			result[i] = src[i]
-		} else {
-			result[i] = char
-		}
-	}
-
-	return result
-}
-
-func UnPadPKCS(src []byte) []byte {
-	srclength := len(src)
-	trim := int(src[srclength-1])
-
-	return src[:srclength-trim]
-}

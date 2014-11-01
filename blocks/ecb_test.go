@@ -3,7 +3,6 @@ package blocks
 import "bytes"
 import "crypto/rand"
 import "testing"
-import "github.com/leijou/matasano-go/conversion"
 
 func TestECB(t *testing.T) {
 	key := make([]byte, 16)
@@ -31,8 +30,6 @@ func TestECB(t *testing.T) {
 		if err != nil {
 			t.Errorf("For e.DecryptECB got error %v", err)
 		}
-
-		decrypted = conversion.UnPadPKCS(decrypted)
 
 		if bytes.Compare(plaintext, decrypted) != 0 {
 			t.Errorf("Failed \"%s\"\nGot %v, expected %v", plaintext, decrypted, plaintext)

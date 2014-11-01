@@ -85,5 +85,9 @@ func (e *Block) DecryptCBC(input, iv []byte) ([]byte, error) {
 		iv = input[a:b]
 	}
 
+	if conversion.DetectPKCS(plaintext) {
+		plaintext = conversion.UnPadPKCS(plaintext)
+	}
+
 	return plaintext, nil
 }
