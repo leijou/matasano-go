@@ -38,6 +38,7 @@ func (e *Block) DecryptCBCBlock(input, iv []byte) ([]byte, error) {
 
 func (e *Block) EncryptCBC(input, iv []byte) ([]byte, error) {
 	input = conversion.PadPKCS(input, e.BlockSize)
+
 	length := len(input)
 	ciphertext := make([]byte, length)
 
@@ -46,11 +47,10 @@ func (e *Block) EncryptCBC(input, iv []byte) ([]byte, error) {
 	}
 
 	// Loop over each block
-	for a, b := 0, e.BlockSize; b < length; a, b = a+e.BlockSize, b+e.BlockSize {
+	for a, b := 0, e.BlockSize; b <= length; a, b = a+e.BlockSize, b+e.BlockSize {
 		plainslice := input[a:b]
-		plainslice, _ = xor.ApplyFixed(plainslice, iv)
 
-		cipherslice := ciphertext[a:b]
+		cipherslice := make([]byte, e.BlockSize)
 		cipherslice, err := e.EncryptCBCBlock(plainslice, iv)
 		if err != nil {
 			return ciphertext, err
@@ -73,8 +73,8 @@ func (e *Block) DecryptCBC(input, iv []byte) ([]byte, error) {
 	}
 
 	// Loop over each block
-	for a, b := 0, e.BlockSize; b < length; a, b = a+e.BlockSize, b+e.BlockSize {
-		plainslice := plaintext[a:b]
+	for a, b := 0, e.BlockSize; b <= length; a, b = a+e.BlockSize, b+e.BlockSize {
+		plainslice := make([]byte, e.BlockSize)
 		plainslice, err := e.DecryptCBCBlock(input[a:b], iv)
 		if err != nil {
 			return plaintext, err

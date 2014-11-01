@@ -16,7 +16,7 @@ func (e *Block) EncryptECB(input []byte) ([]byte, error) {
 	ciphertext := make([]byte, length)
 
 	// Loop over each block
-	for a, b := 0, e.BlockSize; b < length; a, b = a+e.BlockSize, b+e.BlockSize {
+	for a, b := 0, e.BlockSize; b <= length; a, b = a+e.BlockSize, b+e.BlockSize {
 		cipherslice := ciphertext[a:b]
 		cipherslice, err := e.EncryptECBBlock(input[a:b])
 		if err != nil {
@@ -34,7 +34,7 @@ func (e *Block) DecryptECB(input []byte) ([]byte, error) {
 	plaintext := make([]byte, length)
 
 	// Loop over each block
-	for a, b := 0, e.BlockSize; b < length; a, b = a+e.BlockSize, b+e.BlockSize {
+	for a, b := 0, e.BlockSize; b <= length; a, b = a+e.BlockSize, b+e.BlockSize {
 		plainslice := plaintext[a:b]
 		plainslice, err := e.DecryptECBBlock(input[a:b])
 		if err != nil {
